@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Шафи {% endblock %}
+
+{% block additional_css %}
+{#  <link rel="stylesheet" href="{% static "libs/datatables/css/jquery.dataTables.min.css" %}">#}
+  <link rel="stylesheet" href="{% static "libs/datatables/css/dataTables.bootstrap4.min.css" %}">
+{% endblock %}
+
+{% block content %}
+  {% csrf_token %}
+{#  <div class="container">#}
+{#    <div class="row">#}
+{#      <div class="col-12">#}
+{#        <h4>Lockers</h4>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+
+  <section class="table-container">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-12 text-right">
+          <button class="btn btn-info" id="add-button">Додати шафку</button>
+        </div>
+      </div>
+
+      <div class="row table-row">
+        <div class="col-12">
+          <table class="table table-striped table-hover" id="lockers-table" width="100%">
+            <thead>
+              <tr>
+                <th>Locker #</th>
+                <th>Password</th>
+                <th>Kid</th>
+                <th>Class</th>
+                <th></th>
+              </tr>
+            </thead>
+        {#    <tbody>#}
+        {#      {% for locker in lockers %}#}
+        {#        <tr>#}
+        {#          <td>{{ locker.number }}</td>#}
+        {#          <td>{{ locker.kid }}</td>#}
+        {#          <td>{{ locker.kid_class }}</td>#}
+        {#          <td>{{ locker.code }}</td>#}
+        {#        </tr>#}
+        {#      {% endfor %}#}
+        {#    </tbody>#}
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+<div class="modal" id="add-modal">
+  <div class="modal-dialog" role="document">
+    <form action="" id="add-form">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Додати шафку</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger collapse" id="error-alert" role="alert"><span></span></div>
+
+          <div class="container">
+              <div class="form-row">
+              <div class="form-group col-6">
+                <label for="number">Number</label>
+                <input type="text" class="form-control number" required maxlength="254">
+              </div>
+              <div class="form-group col-6">
+                <label for="code">Code</label>
+                <input type="text" class="form-control code" required maxlength="254">
+              </div>
+            </div>
+              <div class="form-row">
+              <div class="form-group col-6">
+                <label for="kid">Kid</label>
+                <input type="text" class="form-control kid" maxlength="254">
+              </div>
+              <div class="form-group col-6">
+                <label for="kid-class">Class</label>
+                <input type="text" class="form-control kid-class" maxlength="32">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="edit-modal">
+  <div class="modal-dialog" role="document">
+    <form action="" id="edit-form">
+      <input type="hidden" class="pk">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Редагувати запис</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger collapse" id="error-alert" role="alert"><span></span></div>
+          <div class="container">
+              <div class="form-row">
+              <div class="form-group col-6">
+                <label for="number">Number</label>
+                <input type="text" class="form-control number" required maxlength="254">
+              </div>
+              <div class="form-group col-6">
+                <label for="code">Code</label>
+                <input type="text" class="form-control code" required maxlength="254">
+              </div>
+            </div>
+              <div class="form-row">
+              <div class="form-group col-6">
+                <label for="kid">Kid</label>
+                <input type="text" class="form-control kid" maxlength="254">
+              </div>
+              <div class="form-group col-6">
+                <label for="kid-class">Class</label>
+                <input type="text" class="form-control kid-class" maxlength="32">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="modal" id="remove-modal">
+  <div class="modal-dialog" role="document">
+    <form action="" id="remove-form">
+      <input type="hidden" class="pk">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Видалити запис</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger collapse" id="error-alert" role="alert"><span></span></div>
+          <h5>Ви впевнені, що бажаєте видалити цей запис?</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Так</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static "libs/datatables/js/jquery.dataTables.min.js" %}"></script>
+  <script src="{% static "libs/datatables/js/dataTables.bootstrap4.js" %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#lockers-table').DataTable({
+        language: {
+          "sProcessing":   "Зачекайте...",
+          "sLengthMenu":   "Показати _MENU_ записів",
+          "sZeroRecords":  "Записи відсутні.",
+          "sInfo":         "Записи з _START_ по _END_ із _TOTAL_ записів",
+          "sInfoEmpty":    "Записи з 0 по 0 із 0 записів",
+          "sInfoFiltered": "(відфільтровано з _MAX_ записів)",
+          "sInfoPostFix":  "",
+          "sSearch":       "Пошук:",
+          "sUrl":          "",
+          "oPaginate": {
+              "sFirst": "Перша",
+              "sPrevious": "Попередня",
+              "sNext": "Наступна",
+              "sLast": "Остання"
+          },
+          "oAria": {
+              "sSortAscending":  ": активувати для сортування стовпців за зростанням",
+              "sSortDescending": ": активувати для сортування стовпців за спаданням"
+            }
+        },
+        "ajax": "/lockers/list",
+        "columns": [
+            { "data": "number" },
+            { "data": "code" },
+            { "data": "kid" },
+            { "data": "kid_class" },
+            { "data": "id",
+              "render": function (data, type, row) {return "<button class='edit-btn btn btn-default' data-pk='"+data+"'>edit</button><button class='remove-btn btn btn-danger' data-pk='"+data+"'>remove</button>"},
+              "orderable": false,
+              "width": "160px"},
+        ]
+      });
+    });
+
+
+    $("#add-button").on("click", function () {
+      $("#add-modal").modal("show");
+      $("#add-modal .alert").hide();
+      $("#add-form")[0].reset();
+    })
+
+    $("#add-form").on("submit", function (event) {
+      event.preventDefault();
+      $.post("{% url "lockers_add" %}", {
+        csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+        number: $("#add-modal .number").val(),
+        code: $("#add-modal .code").val(),
+        kid: $("#add-modal .kid").val(),
+        kid_class: $("#add-modal .kid-class").val(),
+      })
+      .done(function (data) {
+        if (data.success) {
+          $('#lockers-table').DataTable().ajax.reload(null, false);
+          $('#add-modal').modal("hide");
+        }
+        else {
+          $("#add-modal .alert span").text(data.error_message);
+          $("#add-modal .alert").show('slow');
+        }
+      })
+    })
+
+  $(document).on("click", ".edit-btn", function () {
+    var row = $(this).closest("tr");
+    console.log($(row));
+    $("#edit-modal").modal("show");
+    $("#edit-modal .number").val($(row).children("td:nth-child(1)").text());
+    $("#edit-modal .code").val($(row).children("td:nth-child(2)").text());
+    $("#edit-modal .kid").val($(row).children("td:nth-child(3)").text());
+    $("#edit-modal .kid-class").val($(row).children("td:nth-child(4)").text());
+    $("#edit-modal .pk").val($(this).data("pk"));
+  })
+
+  $("#edit-form").on("submit", function (event) {
+    event.preventDefault();
+    $.post("{% url "lockers_edit" %}", {
+      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+      number: $("#edit-modal .number").val(),
+      code: $("#edit-modal .code").val(),
+      kid: $("#edit-modal .kid").val(),
+      kid_class: $("#edit-modal .kid-class").val(),
+      pk: $("#edit-modal .pk").val()
+    })
+    .done(function (data) {
+      if (data.success) {
+        $('#lockers-table').DataTable().ajax.reload(null, false);
+        $('#edit-modal').modal("hide");
+      }
+      else {
+        $("#edit-modal .alert span").text(data.error_message);
+        $("#edit-modal .alert").show('slow');
+      }
+    })
+  })
+
+  $(document).on("click", ".remove-btn", function () {
+    var row = $(this).closest("tr");
+    console.log($(row));
+    $("#remove-modal").modal("show");
+    $("#remove-modal .pk").val($(this).data("pk"));
+  })
+
+  $("#remove-form").on("submit", function (event) {
+    event.preventDefault();
+    $.post("{% url "lockers_remove" %}", {
+      csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+      pk: $("#remove-modal .pk").val()
+    })
+    .done(function (data) {
+      if (data.success) {
+        $('#lockers-table').DataTable().ajax.reload(null, false);
+        $('#remove-modal').modal("hide");
+      }
+      else {
+        $("#remove-modal .alert span").text(data.error_message);
+        $("#remove-modal .alert").show('slow');
+      }
+    })
+  })
+  </script>
+{% endblock %}
