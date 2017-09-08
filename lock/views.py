@@ -50,8 +50,8 @@ def lockers_add(request):
 @login_required
 def lockers_edit(request):
     if request.method == "POST":
-        for i in request.POST:
-            print i, request.POST.get(i)
+        # for i in request.POST:
+        #     print i, request.POST.get(i)
 
         if Locker.objects.filter(pk = request.POST.get('pk')).count() == 1:
             if Locker.objects.filter(number=request.POST.get('number')).exists():
@@ -91,8 +91,8 @@ def lockers_edit(request):
 @login_required
 def lockers_remove(request):
     if request.method == "POST":
-        for i in request.POST:
-            print i, request.POST.get(i)
+        # for i in request.POST:
+        #     print i, request.POST.get(i)
 
         if Locker.objects.filter(pk = request.POST.get('pk')).count() == 1:
             try:
