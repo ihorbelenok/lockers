@@ -26,8 +26,8 @@ def lockers_list(request):
 @login_required
 def lockers_add(request):
     if request.method == "POST":
-        for i in request.POST:
-            print i, request.POST.get(i)
+        # for i in request.POST:
+        #     print i, request.POST.get(i)
 
         if Locker.objects.filter(number=request.POST.get('number')).exists():
             return JsonResponse({"success": False, "error_message": "Шафа з таким номером вже існує"})
