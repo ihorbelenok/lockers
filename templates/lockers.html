@@ -205,7 +205,7 @@
   <script>
     $(document).ready(function() {
       var table = $('#lockers-table').DataTable({
-        dom: '<"top row"<"col-sm-5"l><"col-sm-5"f><"col-sm-2 text-right"B>>rtip',
+        dom: '<"top row"<"col-sm-5"l><"col-sm-5"f><"col-sm-2 text-right"B>>rt<"top row"<"col-sm-6"i><"col-sm-6"p>>',
         language: {
           "sProcessing":   "Зачекайте...",
           "sLengthMenu":   "Показати _MENU_ записів",
@@ -230,6 +230,7 @@
         buttons: [{
           extend: 'print',
           text: 'Друк',
+          title: '',
           exportOptions: {
             columns: [ 0, 1, 2, 3, 4, 5]
           }
