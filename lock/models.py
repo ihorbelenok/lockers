@@ -24,5 +24,8 @@ class Locker(models.Model):
     kid = models.CharField(max_length=254, verbose_name="Власник", blank=True)
     kid_class = models.CharField(max_length=32, verbose_name="Клас", blank=True)
 
+    address = models.TextField(blank=True, verbose_name="Адреса")
+    phone = models.CharField(max_length=32, blank=True, verbose_name="Телефон")
+
     def __unicode__(self):
         return "%s" % (self.number)

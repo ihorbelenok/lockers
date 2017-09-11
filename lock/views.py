@@ -38,6 +38,8 @@ def lockers_add(request):
                 new_locker.code = request.POST.get('code')
                 new_locker.kid = request.POST.get('kid')
                 new_locker.kid_class = request.POST.get('kid_class')
+                new_locker.address = request.POST.get('address')
+                new_locker.phone = request.POST.get('phone')
                 new_locker.save()
             except Exception:
                 return JsonResponse({"success": False, "error_message": "Помилка при збереженні #001. Будь-ласка, перезагрузіть сторінку і спробуйте ще раз"})
@@ -62,6 +64,8 @@ def lockers_edit(request):
                         new_locker.code = request.POST.get('code')
                         new_locker.kid = request.POST.get('kid')
                         new_locker.kid_class = request.POST.get('kid_class')
+                        new_locker.address = request.POST.get('address')
+                        new_locker.phone = request.POST.get('phone')
                         new_locker.save()
                     except Exception:
                         return JsonResponse({"success": False,
@@ -77,6 +81,8 @@ def lockers_edit(request):
                     new_locker.code = request.POST.get('code')
                     new_locker.kid = request.POST.get('kid')
                     new_locker.kid_class = request.POST.get('kid_class')
+                    new_locker.address = request.POST.get('address')
+                    new_locker.phone = request.POST.get('phone')
                     new_locker.save()
                 except Exception:
                     return JsonResponse({"success": False,
